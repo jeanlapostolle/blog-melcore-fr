@@ -1,5 +1,5 @@
 author=Melcore
-publication_date=21/05/2026 11:03:32
+publish_date=21/05/2026 11:03:32
 tags=python, actualité, problems
 
 

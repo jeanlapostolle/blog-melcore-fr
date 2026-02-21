@@ -6,15 +6,26 @@ from datetime import datetime
 
 
 class Article:
-	def __init__(self, author="Unkown", publish_date=datetime.now(), tags=[], content=""):
+	def __init__(self, author="Unknown", publish_date=datetime.now(), tags=[], content=""):
 		self.author = author
 		self.publish_date = publish_date
 		self.tags = tags
 		self.content = content
 
 	def to_html(self):
-		return markdown(self.content)
-
+		return markdown(self.content, extensions=[
+		        "fenced_code",
+		        "codehilite"
+		    ],
+		    extension_configs={
+		        "codehilite": {
+		            "linenums": False,
+		            "guess_lang": False
+		        }
+		    })
+			# TODO: Pygmentize command and add style.
+			# pygmentize -S default -f html -a .codehilite > build/pygments.css
+			# <link rel="stylesheet" href="pygments.css">
 
 def get_article(content_path):
 	var = {}
@@ -41,9 +52,10 @@ def write_html(build_path, html):
 
 def build(content_path, build_path):
 	content_path = Path(content_path)
-	filename = content_path.stem
 	build_path = Path(build_path)
 
-	article = get_article(content_path)
-	write_html(build_path /(filename + ".html"), article.to_html())
+	for child in content_path.iterdir():
+		filename = child.stem
+		article = get_article(child)
+		write_html(build_path /(filename + ".html"), article.to_html())
 
