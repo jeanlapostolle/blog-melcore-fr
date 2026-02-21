@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from markdown import markdown
@@ -15,9 +16,9 @@ class Article:
 		return markdown(self.content)
 
 
-def get_markdown(content_url):
+def get_article(content_path):
 	var = {}
-	with open(content_url, "r") as f:
+	with open(content_path, "r") as f:
 		while (line := f.readline()) != "\n":
 			name_var, val_var = line.split("=")
 			var[name_var.strip()] = val_var.strip()
@@ -32,10 +33,17 @@ def get_markdown(content_url):
 
 	return article
 
+def write_html(build_path, html):
+	os.makedirs(build_path.parent, exist_ok=True)
+	with open(build_path, "w+") as f:
+		f.write(html)
 
 
-def build(content_url):
-	article= get_markdown(content_url)
-	with open(content_url+".html", "w") as f:
-		print(article.author, article.publish_date)
-		f.write(article.to_html())
+def build(content_path, build_path):
+	content_path = Path(content_path)
+	filename = content_path.stem
+	build_path = Path(build_path)
+
+	article = get_article(content_path)
+	write_html(build_path /(filename + ".html"), article.to_html())
+
