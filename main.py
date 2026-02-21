@@ -1,3 +1,3 @@
-from blogpy.build import Builder
+from blogpy.build import build
 
-Builder("content/test-simple-text.md").build()
+build("content/test-simple-text.md")
