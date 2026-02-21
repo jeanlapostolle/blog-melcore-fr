@@ -1,15 +1,34 @@
 from pathlib import Path
 from markdown import markdown
+from datetime import datetime
+
+@dataclasses
+class Article:
+	author = "<NAME>"
+	publish_date = datetime.today()
+	tags = []
+	content = ""
+
+	def to_html(self):
+		return markdown(self.content)
 
 
-def get_mardown(content_url):
+def get_markdown(content_url):
 	var = {}
 	with open(content_url, "r") as f:
 		while (line := f.readline()) != "\n":
-			name_var, val_var = line.strip().split("=")
-			var[name_var] = val_var
-		md = ''.join(f.readlines())
-	return var, md
+			name_var, val_var = line.split("=")
+			var[name_var.split()] = val_var.split()
+		article = Article(author=var["author"], publish_date=var["publish_date"])
+		article.content = ''.join(f.readlines())
+
+	for name, value in var.items():
+		if name in article.__dict__:
+			article.__dict__[name] = value
+		else:
+			raise NameError(f"Variable {name} is not a valid variable name")
+
+	return article
 
 
 class Builder:
@@ -17,13 +36,7 @@ class Builder:
 		self.content_url = content_url
 
 	def build(self):
-		var, md = get_mardown(self.content_url)
-		html = markdown(md)
+		article= get_markdown(self.content_url)
 		with open(self.content_url+".html", "w") as f:
-			print(var["author"], var["publish_date"])
-			f.write(html)
-
-
-
-
-
+			print(article["author"], article["publish_date"])
+			f.write(article.to_html())
