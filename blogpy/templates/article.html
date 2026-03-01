@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+
+<article aria-labelledby="article-title">
+
+  <header class="article-header">
+    <div class="article-meta">
+      <time datetime="{{ article.date_iso }}">{{ article.publish_date }}</time>
+      {% if article.author %}<span>{{ article.author }}</span>{% endif %}
+    </div>
+
+    <h1 id="article-title">{{ article.title }}</h1>
+
+    {% if article.excerpt %}
+    <p class="article-intro">{{ article.excerpt }}</p>
+    {% endif %}
+  </header>
+
+  <div class="article-content">
+    {{ article.content | safe }}
+  </div>
+
+  {% if article.tags %}
+  <ul class="tags" aria-label="Tags de l'article">
+    {% for tag in article.tags %}
+    <li><a href="/tags/{{ tag }}/">#{{ tag }}</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+</article>
+
+<!-- TODO : Gestion in base_article.html -->
+      {% if article.prev or article.next %}
+      <nav class="article-nav" aria-label="Articles précédent et suivant">
+        <div class="prev">
+          {% if article.prev %}
+          <span>← Précédent</span>
+          <a href="{{ article.prev.url }}">{{ article.prev.title }}</a>
+          {% endif %}
+        </div>
+        <div class="next">
+          {% if article.next %}
+          <span>Suivant →</span>
+          <a href="{{ article.next.url }}">{{ article.next.title }}</a>
+          {% endif %}
+        </div>
+      </nav>
+      {% endif %}
+
+    </main>
+
+
+
+  </div>
+{% endblock %}

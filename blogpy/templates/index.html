@@ -1,0 +1,80 @@
+{% extend base.html %}
+
+{% block content %}
+  <a href="#main" class="skip-link">Aller au contenu</a>
+
+  <div class="wrapper">
+
+    <header role="banner">
+      <p class="site-title"><a href="/blogpy/templates/static">{{ site.title }}</a></p>
+      <p class="site-desc">{{ site.description }}</p>
+      <nav aria-label="Navigation principale">
+        <ul>
+          <li><a href="/blogpy/templates/static" aria-current="page">Articles</a></li>
+          <li><a href="/a-propos/">À propos</a></li>
+          {# {% for item in nav %}<li><a href="{{ item.url }}">{{ item.label }}</a></li>{% endfor %} #}
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main" tabindex="-1">
+
+      <h1 class="sr-only">Liste des articles</h1>
+      <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}</style>
+
+      <ul class="articles-list" aria-label="Articles">
+
+        {% for article in articles %}
+        <li class="article-item">
+          <div class="article-meta">
+            <time datetime="{{ article.date_iso }}">{{ article.date }}</time>
+            {% if article.reading_time %}
+            <span>{{ article.reading_time }} min de lecture</span>
+            {% endif %}
+          </div>
+
+          <h2 class="article-title">
+            <a href="{{ article.url }}">{{ article.title }}</a>
+          </h2>
+
+          {% if article.excerpt %}
+          <p class="article-excerpt">{{ article.excerpt }}</p>
+          {% endif %}
+
+          <a class="read-more" href="{{ article.url }}" aria-label="Lire « {{ article.title }} »">Lire →</a>
+
+          {% if article.tags %}
+          <ul class="tags" aria-label="Tags">
+            {% for tag in article.tags %}
+            <li><a href="/tags/{{ tag }}/">#{{ tag }}</a></li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </li>
+        {% endfor %}
+
+      </ul>
+
+      {% if pagination %}
+      <nav class="pagination" aria-label="Pagination">
+        {% if pagination.prev %}
+        <a href="{{ pagination.prev }}" rel="prev">← Précédent</a>
+        {% else %}
+        <span></span>
+        {% endif %}
+        {% if pagination.next %}
+        <a href="{{ pagination.next }}" rel="next">Suivant →</a>
+        {% endif %}
+      </nav>
+      {% endif %}
+
+    </main>
+
+    <footer role="contentinfo">
+      <p>{{ site.title }} — {{ site.year }}</p>
+    </footer>
+
+  </div>
+{% endblock %}
+
+

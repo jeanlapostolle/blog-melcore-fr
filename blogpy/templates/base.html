@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}">
+  <link href="static/style.css" rel="stylesheet">
+  <link href="static/pygments.css" rel="stylesheet">
+  {% block head %}{% endblock %}
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Aller au contenu</a>
+
+  <div class="wrapper">
+
+    <header role="banner">
+      <p class="site-title"><a href="/blogpy/templates/static">{{ site.title }}</a></p>
+      <nav aria-label="Navigation principale">
+        <ul>
+          <li><a href="/blogpy/templates/static">Articles</a></li>
+          <li><a href="/a-propos/">À propos</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main" tabindex="-1">
+  {% block content %}{% endblock %}
+
+    <footer role="contentinfo">
+      <p><a href="/blogpy/templates/static">← Retour aux articles</a></p>
+      <p style="margin-top:0.5rem">{{ site.title }} — {{ site.year }}</p>
+    </footer>
+</body>
+
+</html>
