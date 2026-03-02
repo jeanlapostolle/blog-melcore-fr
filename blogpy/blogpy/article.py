@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from markdown import markdown
+from slugify import slugify
 
 from blogpy.blogpy.tag import tags_from_string
 
@@ -26,6 +27,7 @@ class Article:
         publish_date=datetime.now(),
         tags: str = "",
         content="",
+        url: str = None,
     ):
         self.author = author
         self.publish_date = publish_date
@@ -33,6 +35,7 @@ class Article:
         self.content = content
         self.content = self.to_html()
         self.title = title
+        self.url = url
 
     def to_html(self):
         return markdown(
@@ -64,5 +67,9 @@ class Article:
                 name_var, val_var = line.split("=")
                 var[name_var.strip()] = val_var.strip()
 
-            self.build_from_var(**var, content="".join(f.readlines()))
+            self.build_from_var(
+                **var,
+                content="".join(f.readlines()),
+                url="article/" + slugify(content_path.stem) + ".html",
+            )
         return self

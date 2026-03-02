@@ -16,10 +16,10 @@
   <div class="wrapper">
 
     <header role="banner">
-      <p class="site-title"><a href="/blogpy/templates/static">{{ site.title }}</a></p>
+      <p class="site-title"><a href="/">{{ site.title }}</a></p>
       <nav aria-label="Navigation principale">
         <ul>
-          <li><a href="/blogpy/templates/static">Articles</a></li>
+          <li><a href="/">Articles</a></li>
           <li><a href="/a-propos/">À propos</a></li>
         </ul>
       </nav>
@@ -29,7 +29,6 @@
   {% block content %}{% endblock %}
 
     <footer role="contentinfo">
-      <p><a href="/blogpy/templates/static">← Retour aux articles</a></p>
       <p style="margin-top:0.5rem">{{ site.title }} — {{ site.year }}</p>
     </footer>
 </body>

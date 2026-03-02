@@ -1,7 +1,6 @@
 from pathlib import Path
 
 
-from datetime import datetime
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 from blogpy.blogpy.article import Article
@@ -14,17 +13,16 @@ env = Environment(loader=PackageLoader("blogpy"), autoescape=select_autoescape()
 def build(content_path, build_path):
     content_path = Path(content_path)
     build_path = Path(build_path)
-    site = Site(
-        title="Blog de Melcore",
-        description="Le blog de la connaissance et du avoir peu commun",
-        year=datetime.now().year,
-    )
+
+    site = Site().from_markdown(content_path / "index.md")
 
     copy_static(Path("blogpy/templates/static"), build_path / "static")
     copy_static(Path("media"), build_path / "media")
 
     for child in content_path.iterdir():
         filename = child.stem
+        if filename == "index":
+            continue
         article = Article().from_markdown(child)
 
         article_template = env.get_template("article.html")
