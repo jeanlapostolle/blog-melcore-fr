@@ -16,7 +16,7 @@ def get_article(content_path):
 		while (line := f.readline()) != "\n":
 			name_var, val_var = line.split("=")
 			var[name_var.strip()] = val_var.strip()
-		article = Article(author=var["author"], publish_date=var["publish_date"], tags=var.get("tags", ""), content=''.join(f.readlines()))
+		article = Article(author=var["author"], title=var["title"],publish_date=var["publish_date"], tags=var.get("tags", ""), content=''.join(f.readlines()))
 
 
 	return article

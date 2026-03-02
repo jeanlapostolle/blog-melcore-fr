@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_article.html" %}
 {% block content %}
 
 <article aria-labelledby="article-title">
@@ -10,10 +10,6 @@
     </div>
 
     <h1 id="article-title">{{ article.title }}</h1>
-
-    {% if article.excerpt %}
-    <p class="article-intro">{{ article.excerpt }}</p>
-    {% endif %}
   </header>
 
   <div class="article-content">

@@ -22,6 +22,8 @@ def build(content_path, build_path):
 	build_path = Path(build_path)
 	site = Site(title="Blog de Melcore", description="Le blog de la connaissance et du avoir peu commun", year=datetime.now().year)
 
+	articles=[]
+
 	copy_static(Path("blogpy/templates/static"), build_path / "static")
 
 	for child in content_path.iterdir():
@@ -29,5 +31,8 @@ def build(content_path, build_path):
 		article = get_article(child)
 		article_template = env.get_template("article.html")
 		article.content = article_template.render(article=article.infos(), site=site)
-		write_html(build_path /(filename + ".html"), article.content)
+		write_html(build_path / "article" / (filename + ".html"), article.content)
+		articles.append(article)
 
+	index_content = env.get_template("index.html").render(site=site, articles=articles)
+	write_html(build_path / "index.html", index_content)

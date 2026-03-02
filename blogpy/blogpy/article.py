@@ -6,11 +6,12 @@ from blogpy.blogpy.tag import tags_from_string
 
 
 class Article:
-	def __init__(self, author="Unknown", publish_date=datetime.now(), tags=str, content=""):
+	def __init__(self, author="Unknown",title:str="",  publish_date=datetime.now(), tags:str="", content=""):
 		self.author = author
 		self.publish_date = publish_date
 		self.tags = tags_from_string(tags)
 		self.content = content
+		self.title=title
 
 	def to_html(self):
 		return markdown(self.content, extensions=[
@@ -29,6 +30,7 @@ class Article:
 
 	def infos(self):
 		return {
+			"title": self.title,
 			"author": self.author,
 			"publish_date": self.publish_date,
 			"tags": self.tags,
